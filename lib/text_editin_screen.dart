@@ -188,10 +188,13 @@ class _TextEditingScreenState extends State<TextEditingScreen> {
     if (undoStack.isNotEmpty) {
       redoStack.add(texts.last);
       texts.removeLast();
-      if (undoStack.isNotEmpty) {
-        texts.add(undoStack.removeLast());
-      }
+
+      // if (undoStack.isNotEmpty) {
+      //   texts.add(undoStack.removeLast());
+      // }
       setState(() {});
+    } else {
+      return;
     }
   }
 
@@ -200,8 +203,19 @@ class _TextEditingScreenState extends State<TextEditingScreen> {
       undoStack.add(texts.last);
       texts.add(redoStack.removeLast());
       setState(() {});
+    } else {
+      return;
     }
   }
+
+  // void _showSnackBar(String message) {
+  //   ScaffoldMessenger.of(context).showSnackBar(
+  //     SnackBar(
+  //       content: Text(message),
+  //       duration: const Duration(seconds: 2),
+  //     ),
+  //   );
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -216,19 +230,22 @@ class _TextEditingScreenState extends State<TextEditingScreen> {
         ),
         backgroundColor: Colors.cyan,
         actions: [
-          OutlinedButton(
-            onPressed: () {
-              _showInputTextDialog(context);
-            },
-            style: ButtonStyle(
-              padding: MaterialStateProperty.all(
-                const EdgeInsets.all(10),
+          Container(
+            margin: const EdgeInsets.only(right: 8),
+            child: OutlinedButton(
+              onPressed: () {
+                _showInputTextDialog(context);
+              },
+              style: ButtonStyle(
+                padding: MaterialStateProperty.all(
+                  const EdgeInsets.all(10),
+                ),
               ),
-            ),
-            child: const Text(
-              'Input Text',
-              style:
-                  TextStyle(color: Colors.black, fontWeight: FontWeight.w700),
+              child: const Text(
+                'Input Text',
+                style:
+                    TextStyle(color: Colors.black, fontWeight: FontWeight.w700),
+              ),
             ),
           ),
         ],
